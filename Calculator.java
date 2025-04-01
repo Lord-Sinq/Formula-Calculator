@@ -7,29 +7,29 @@
 
 public class Calculator {
     /**
-     * This is the main method that serves as the entry point for the calculator application.
+     * This is the main method that serves as the entry podouble for the calculator application.
      * It initializes the calculator and allows for basic arithmetic operations.
      * @param 
      */
 
     public static void main(String[] args) {
-        // calculator application entry point
+        // calculator application entry podouble
 
     }
 
-    public static int add(int x, int y) {
+    public static double add(double x, double y) {
         return x + y;
     }
 
-    public static int subtract(int x, int y) {
+    public static double subtract(double x, double y) {
         return x - y;
     }
 
-    public static int multiply(int x, int y) {
+    public static double multiply(double x, double y) {
         return x * y;
     }
 
-    public static double divide(int x, int y) {
+    public static double divide(double x, double y) {
         if (y == 0) {
             throw new ArithmeticException("Division by zero is not allowed.");
         }

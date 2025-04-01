@@ -57,6 +57,7 @@ public class CalcRun {
         mainPanel.setBorder(BorderFactory.createTitledBorder("Formula's")); // Add a border with title
         
         String[] formulas = {
+            " ", // Placeholder for default selection
             "Addition (+)",
             "Subtraction (-)",
             "Multiplication (*)",
@@ -70,7 +71,7 @@ public class CalcRun {
         mainPanel.add(formulaSelector, BorderLayout.NORTH); // Add the JComboBox to the main panel
         mainPanel.add(display, BorderLayout.CENTER); // Add the display to the main panel
 
-        buttonPanel = new JPanel(new GridLayout(4, 4, 10, 10)); // Create a panel for the calculator buttons
+        buttonPanel = new JPanel(new GridLayout(4, 4, 8, 10)); // Create a panel for the calculator buttons
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Buttons")); // Add a border with title
         
         JButton[] numberButtons = new JButton[10]; // Array to hold number buttons (0-9)
@@ -82,6 +83,12 @@ public class CalcRun {
             });
             buttonPanel.add(numberButtons[i]); // Add button to the panel
         }
+
+
+        /**
+         * this will be changed to use the calculator class methods for calculation
+         */
+
 
         // Adding operation buttons
         String[] operations = {"+", "-", "*", "/"}; // Array of operation symbols
@@ -97,8 +104,12 @@ public class CalcRun {
             buttonPanel.add(operationButton); // Add operation button to the panel
         }
 
+        /**
+         * ---------------
+         */
+
         // create an instance of the calculator class
-        Calculator calculator = new Calculator(); // Create an instance of the calculator class (assuming it's defined elsewhere)
+        Calculator calculator = new Calculator(); // Create an instance of the calculator class
 
         JButton equalsButton = new JButton("="); // Create an equals button
         equalsButton.addActionListener(e -> {
@@ -109,11 +120,11 @@ public class CalcRun {
                 String operator = parts[1]; // Get the operator from the display text
                 double num2 = Double.parseDouble(parts[2]); // Parse the second number
                 double result = switch (operator) { // Perform calculation based on the operator
-                    case "+" -> num1 + num2; // Addition
-                    case "-" -> num1 - num2; // Subtraction
-                    case "*" -> num1 * num2; // Multiplication
+                    case "+" -> calculator.add(num1, num2); // Addition
+                    case "-" -> calculator.subtract(num1, num2); // Subtraction
+                    case "*" -> calculator.multiply(num1, num2); // Multiplication
                     //case "/" -> {if (num2 == 0) {throw new ArithmeticException("Division by zero is not allowed.");} yield num1 / num2;} // Division
-                    case "/" -> num2 != 0 ? num1 / num2 : Double.NaN; // Division with check for zero
+                    case "/" -> calculator.divide(num1, num2); // Division with check for zero
                     default -> 0; // Default case
                 };
                 display.setText(String.valueOf(result)); // Set the display to the result of the calculation
@@ -138,4 +149,12 @@ public class CalcRun {
         frame.setVisible(true); // Make the frame visible
         frame.setLocationRelativeTo(null); // Center the frame on the screen
     } // End of constructor
+
+    public static void main(String[] args) {
+        /**
+         * This is the entry point for the calculator application.
+         * It creates an instance of the CalcRun class to initialize and display the calculator GUI.
+         */
+        SwingUtilities.invokeLater(() -> { new CalcRun(); });// Create an instance of CalcRun to initialize the GUI
+    }
 }
