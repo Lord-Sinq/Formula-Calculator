@@ -21,35 +21,35 @@ public class CalcRun {
      * The display shows the current input and result of calculations.
      * The calculator can handle multiple operations and updates the display accordingly.
      */
-    
     private JPanel buttonPanel; // Panel to hold calculator buttons
     private JPanel mainPanel; // Main panel for the calculator
     private JButton[] numberButtons; // Array to hold number buttons (0-9)
-    private JTextField display; // Text field for displaying calculations
+    private JTextField display1, display2, display3; // Text field for displaying calculations
     private double result; // Variable to store the result of calculations
     private String operator; // Variable to store the current operator
     private boolean calculating; // Flag to indicate if a calculation is in progress
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
-    /**
-     * Constructor for the calcRun class.
-     * It initializes the GUI components and sets up the layout for the calculator application.
-     */
+    private static final int MAX_HIGHT = 600; // Constant for maximum height of the JFrame
+    private static final int MAX_WIDTH = 375; // Constant for maximum width of the JFrame
     
+    /**
+     * Constructor for CalcRun class that initializes the GUI components and sets up the calculator.
+     * This constructor sets up the JFrame, initializes the display, creates buttons for digits and operations,
+     * and adds action listeners to handle button clicks for performing calculations.
+     * It also configures the layout of the GUI components and adds them to the JFrame.
+     */
     public CalcRun(){
-        /**
-         * This is the main method that initializes and runs the calculator application.
-         */
         // running the calc application
         JFrame frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 600);
+        frame.setSize(MAX_WIDTH, MAX_HIGHT);
         frame.setLayout(new BorderLayout()); // Set the layout manager for the frame
 
-        // initualize the display
-        display = new JTextField(); // Create a text field for displaying calculations
-        display.setEditable(false); // Make the display non-editable
-        display.setFont(new Font("Arial", Font.PLAIN, 24)); // Set font for the display
-        display.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
+        // initualize the display for display1 which will be used as num1 in the Calculator class call
+        display1 = new JTextField(); // Create a text field for displaying calculations
+        display1.setEditable(true); // Make the display non-editable
+        display1.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
+        display1.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
 
         // initialize the forula panel
         mainPanel = new JPanel(); 
@@ -66,10 +66,10 @@ public class CalcRun {
         formulaSelector = new JComboBox<>(formulas); // Create a JComboBox for selecting formulas
         formulaSelector.addActionListener(e -> {
             String selectedFormula = (String) formulaSelector.getSelectedItem(); // Get the selected formula
-            display.setText("Selected Formula: " + selectedFormula); // Clear the display when a new formula is selected
+            display1.setText("Selected Formula: " + selectedFormula); // Clear the display when a new formula is selected
         });
         mainPanel.add(formulaSelector, BorderLayout.NORTH); // Add the JComboBox to the main panel
-        mainPanel.add(display, BorderLayout.CENTER); // Add the display to the main panel
+        mainPanel.add(display1, BorderLayout.CENTER); // Add the display to the main panel
 
         buttonPanel = new JPanel(new GridLayout(4, 4, 8, 10)); // Create a panel for the calculator buttons
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Buttons")); // Add a border with title
@@ -79,7 +79,7 @@ public class CalcRun {
             numberButtons[i] = new JButton(String.valueOf(i)); // Create buttons for digits 0-9
             int finalI = i; // Final variable for lambda expression
             numberButtons[i].addActionListener(e -> {
-                display.setText(display.getText() + finalI); // Append digit to display when button is clicked
+                display1.setText(display1.getText() + finalI); // Append digit to display when button is clicked
             });
             buttonPanel.add(numberButtons[i]); // Add button to the panel
         }
@@ -90,19 +90,19 @@ public class CalcRun {
          */
 
 
-        // Adding operation buttons
-        String[] operations = {"+", "-", "*", "/"}; // Array of operation symbols
-        for (String operation : operations) {
-            JButton operationButton = new JButton(operation); // Create a button for each operation
-            operationButton.addActionListener(e -> {
-                if (!display.getText().isEmpty()) {
-                    result = Double.parseDouble(display.getText()); // Parse the current display value as a double
-                    operator = operation; // Set the current operator
-                    display.setText(""); // Clear the display for the next input
-                }
-            });
-            buttonPanel.add(operationButton); // Add operation button to the panel
-        }
+        // // Adding operation buttons
+        // String[] operations = {"+", "-", "*", "/"}; // Array of operation symbols
+        // for (String operation : operations) {
+        //     JButton operationButton = new JButton(operation); // Create a button for each operation
+        //     operationButton.addActionListener(e -> {
+        //         if (!display1.getText().isEmpty()) {
+        //             result = Double.parseDouble(display1.getText()); // Parse the current display value as a double
+        //             operator = operation; // Set the current operator
+        //             display1.setText(""); // Clear the display for the next input
+        //         }
+        //     });
+        //     buttonPanel.add(operationButton); // Add operation button to the panel
+        // }
 
         /**
          * ---------------
@@ -115,7 +115,7 @@ public class CalcRun {
         equalsButton.addActionListener(e -> {
             // preform calculation (basic implementation)
             try {
-                String[] parts = display.getText().split(" "); // Split the display text to get operands
+                String[] parts = display1.getText().split(" "); // Split the display text to get operands
                 double num1 = Double.parseDouble(parts[0]); // Parse the first number
                 String operator = parts[1]; // Get the operator from the display text
                 double num2 = Double.parseDouble(parts[2]); // Parse the second number
@@ -123,21 +123,20 @@ public class CalcRun {
                     case "+" -> calculator.add(num1, num2); // Addition
                     case "-" -> calculator.subtract(num1, num2); // Subtraction
                     case "*" -> calculator.multiply(num1, num2); // Multiplication
-                    //case "/" -> {if (num2 == 0) {throw new ArithmeticException("Division by zero is not allowed.");} yield num1 / num2;} // Division
                     case "/" -> calculator.divide(num1, num2); // Division with check for zero
                     default -> 0; // Default case
                 };
-                display.setText(String.valueOf(result)); // Set the display to the result of the calculation
+                display1.setText(String.valueOf(result)); // Set the display to the result of the calculation
                 
             } catch (Exception ex) {
-                display.setText("Error: " + ex); // Display error if calculation fails
+                JOptionPane.showMessageDialog(frame, "Error: " + ex); // Display error if calculation fails
             }
         });
         buttonPanel.add(equalsButton); // Add equals button to the panel
 
         // add a clear button to reset the calculator
         JButton clearButton = new JButton("C"); // Create a clear button
-        clearButton.addActionListener(e -> display.setText("")); // Clear the display when the button is clicked
+        clearButton.addActionListener(e -> display1.setText("")); // Clear the display when the button is clicked
         buttonPanel.add(clearButton); // Add clear button to the panel
 
         // add panel to the frame
