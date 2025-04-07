@@ -141,7 +141,6 @@ public class CalcRun {
                     default -> throw new IllegalArgumentException("Invalid operator selected");
                 };
                 // get the operator from the formulaSelector
-                //operator = (String) formulaSelector.getSelectedItem(); // Get the selected operator from the JComboBox
                 double result = switch (operator) { // Perform calculation based on the operator
                     case "+" -> Calculator.add(num1, num2); // Addition
                     case "-" -> Calculator.subtract(num1, num2); // Subtraction
