@@ -21,7 +21,7 @@ public class CalcRun {
      * The display shows the current input and result of calculations.
      * The calculator can handle multiple operations and updates the display accordingly.
      */
-    private JPanel buttonPanel; // Panel to hold calculator buttons
+    private JPanel buttonPanel, specialButtonPanel; // Panel to hold calculator buttons
     private JPanel mainPanel; // Main panel for the calculator
     private JButton[] numberButtons; // Array to hold number buttons (0-9)
     private JTextField display1, display2, display3; // Text field for displaying calculations
@@ -48,23 +48,24 @@ public class CalcRun {
 
         // initualize the display for display1 which will be used as num1 in the Calculator class call
         display1 = new JTextField(); // Create a text field for displaying calculations
-        display1.setEditable(true); // Make the display non-editable
-        display1.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
+        display1.setEditable(false); // Make the display non-editable
+        display1.setFont(new Font("Arial", Font.PLAIN, 17)); // Set font for the display
         display1.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
         // initualize the display for display2 which will be used as num1 in the Calculator class call
         display2 = new JTextField(); // Create a text field for displaying calculations
-        display2.setEditable(true); // Make the display non-editable
-        display2.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
+        display2.setEditable(false); // Make the display non-editable
+        display2.setFont(new Font("Arial", Font.PLAIN, 17)); // Set font for the display
         display2.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
         // initualize the display for display3 which will be used as num1 in the Calculator class call
         display3 = new JTextField(); // Create a text field for displaying calculations
         display3.setEditable(false); // Make the display non-editable
-        display3.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
+        display3.setFont(new Font("Arial", Font.PLAIN, 17)); // Set font for the display
         display3.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right\
 
         // setting the display to be focused on display1
         activeDisplay = display1; // Set the active display to display1
         display2.setBackground(Color.LIGHT_GRAY); // Set background color to light gray
+        display3.setBackground(Color.LIGHT_GRAY); // Set background color to light gray
 
         // initialize the forula panel
         mainPanel = new JPanel(); 
@@ -93,8 +94,9 @@ public class CalcRun {
         dispayPanel.add(display3); // Add display3 to the display panel
         mainPanel.add(dispayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
 
+        // Create button panel's for the calculator buttons
         buttonPanel = new JPanel(new GridLayout(4, 4, 8, 10)); // Create a panel for the calculator buttons
-        buttonPanel.setBorder(BorderFactory.createTitledBorder("Buttons")); // Add a border with title
+        specialButtonPanel = new JPanel(new GridLayout(1, 4, 8, 10)); // Create a panel for special buttons
         
         JButton[] numberButtons = new JButton[10]; // Array to hold number buttons (0-9)
         for (int i = 0; i < 10; i++) {
@@ -107,21 +109,14 @@ public class CalcRun {
             buttonPanel.add(numberButtons[i]); // Add button to the panel
         }
 
-        // add a button to switch between displays
-        JButton switchButton = new JButton("Switch"); // Create a switch button
-        switchButton.addActionListener(e -> {
-            // Switch the active display between display1 and display2
-            if (activeDisplay == display1) {
-                activeDisplay = display2; // Switch to display2
-                display2.setBackground(Color.WHITE); // Set background color to white
-                display1.setBackground(Color.LIGHT_GRAY); // Set background color to yellow
-            } else {
-                activeDisplay = display1; // Switch to display1
-                display1.setBackground(Color.WHITE); // Set background color to white
-                display2.setBackground(Color.LIGHT_GRAY); // Set background color to yellow
+        JButton dotButton = new JButton("."); // Create a dot button
+        dotButton.addActionListener(e -> {
+            // Append the dot to the active display
+            if (!activeDisplay.getText().contains(".")) { // Check if dot is already present
+                activeDisplay.setText(activeDisplay.getText() + "."); // Append dot to display1
             }
         });
-        buttonPanel.add(switchButton); // Add switch button to the panel
+        buttonPanel.add(dotButton); // Add dot button to the panel
 
         JButton equalsButton = new JButton("="); // Create an equals button
         equalsButton.addActionListener(e -> {
@@ -148,8 +143,12 @@ public class CalcRun {
                     case "*" -> Calculator.multiply(num1, num2); // Multiplication
                     default -> 0; // Default case
                 };
+
+                // format the result to 2 decimal places
+                String formattedResult = String.format("%.6f", result); // Format the result to 2 decimal places
                 // set the result to display3
-                display3.setText(String.valueOf(result)); // Set the display to the result of the calculation
+                display3.setText(String.valueOf(formattedResult)); // Set the display to the result of the calculation
+                display3.setBackground(Color.WHITE); // Set background color to white
                 
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(frame, "Invalid Input Error: " + ex); // Display error if calculation fails
@@ -167,13 +166,30 @@ public class CalcRun {
             display1.setText(""); // Clear the display when the button is clicked
             display2.setText(""); // Clear the display when the button is clicked
             display3.setText(""); // Clear the display when the button is clicked
+            display3.setBackground(Color.LIGHT_GRAY); // Set background color to light gray
         });
+        specialButtonPanel.add(clearButton); // Add clear button to the panel
 
-        buttonPanel.add(clearButton); // Add clear button to the panel
+        // add a button to switch between displays
+        JButton switchButton = new JButton("<--->"); // Create a switch button
+        switchButton.addActionListener(e -> {
+            // Switch the active display between display1 and display2
+            if (activeDisplay == display1) {
+                activeDisplay = display2; // Switch to display2
+                display2.setBackground(Color.WHITE); // Set background color to white
+                display1.setBackground(Color.LIGHT_GRAY); // Set background color to yellow
+            } else {
+                activeDisplay = display1; // Switch to display1
+                display1.setBackground(Color.WHITE); // Set background color to white
+                display2.setBackground(Color.LIGHT_GRAY); // Set background color to yellow
+            }
+        });
+        specialButtonPanel.add(switchButton); // Add switch button to the panel
 
         // add panel to the frame
         frame.add(mainPanel, BorderLayout.NORTH); // Add the main panel to the frame
         frame.add(buttonPanel, BorderLayout.CENTER); // Add the button panel to the frame
+        frame.add(specialButtonPanel, BorderLayout.EAST); // Add the button panel to the frame
 
         //finalize and display the frame
         frame.pack(); // Pack the frame to fit the components
