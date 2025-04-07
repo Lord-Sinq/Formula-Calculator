@@ -50,6 +50,16 @@ public class CalcRun {
         display1.setEditable(true); // Make the display non-editable
         display1.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
         display1.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
+        // initualize the display for display2 which will be used as num1 in the Calculator class call
+        display2 = new JTextField(); // Create a text field for displaying calculations
+        display2.setEditable(true); // Make the display non-editable
+        display2.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
+        display2.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
+        // initualize the display for display3 which will be used as num1 in the Calculator class call
+        display3 = new JTextField(); // Create a text field for displaying calculations
+        display3.setEditable(true); // Make the display non-editable
+        display3.setFont(new Font("Arial", Font.PLAIN, 19)); // Set font for the display
+        display3.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
 
         // initialize the forula panel
         mainPanel = new JPanel(); 
@@ -66,10 +76,16 @@ public class CalcRun {
         formulaSelector = new JComboBox<>(formulas); // Create a JComboBox for selecting formulas
         formulaSelector.addActionListener(e -> {
             String selectedFormula = (String) formulaSelector.getSelectedItem(); // Get the selected formula
-            display1.setText("Selected Formula: " + selectedFormula); // Clear the display when a new formula is selected
+            display1.setText(""); // Clear the display when a new formula is selected
         });
         mainPanel.add(formulaSelector, BorderLayout.NORTH); // Add the JComboBox to the main panel
-        mainPanel.add(display1, BorderLayout.CENTER); // Add the display to the main panel
+
+        // Add displays to the main panel using a gridlayout
+        JPanel dispayPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // Create a panel for the displays
+        dispayPanel.add(display1); // Add display1 to the panel
+        dispayPanel.add(display2); // Add display2 to the panel
+        dispayPanel.add(display3); // Add display3 to the panel
+        mainPanel.add(dispayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
 
         buttonPanel = new JPanel(new GridLayout(4, 4, 8, 10)); // Create a panel for the calculator buttons
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Buttons")); // Add a border with title
