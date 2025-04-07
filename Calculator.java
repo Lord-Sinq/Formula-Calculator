@@ -11,28 +11,29 @@ public class Calculator {
      * It initializes the calculator and allows for basic arithmetic operations.
      * @param 
      */
+    
 
     public static void main(String[] args) {
         // calculator application entry podouble
 
     }
 
-    public static double add(double x, double y) {
+    public static float add(float x, float y) {
         return x + y;
     }
 
-    public static double subtract(double x, double y) {
+    public static float subtract(float x, float y) {
         return x - y;
     }
 
-    public static double multiply(double x, double y) {
+    public static float multiply(float x, float y) {
         return x * y;
     }
 
-    public static double divide(double x, double y) {
+    public static float divide(float x, float y) {
         if (y == 0) {
             throw new ArithmeticException("Division by zero is not allowed.");
         }
-        return (double) x / y;
+        return (float) x / y;
     }
 }
