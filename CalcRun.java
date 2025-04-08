@@ -1,7 +1,7 @@
 /**
  * @author Sinclair DeYoung
  * @version 1.0
- * @since 2023-10-01
+ * @since 2025-04-08
  * This is the main class that runs the calculator application.
  */
 
@@ -21,17 +21,18 @@ public class CalcRun {
      * The display shows the current input and result of calculations.
      * The calculator can handle multiple operations and updates the display accordingly.
      */
-    private JPanel buttonPanel, specialButtonPanel; // Panel to hold calculator buttons
-    private JPanel mainPanel; // Main panel for the calculator
-    private JButton[] numberButtons; // Array to hold number buttons (0-9)
-    private JTextField display1, display2, display3; // Text field for displaying pressed buttons & calculations 
+    final private JPanel buttonPanel, specialButtonPanel; // Panel to hold calculator buttons
+    final private JPanel mainPanel; // Main panel for the calculator
+    final private JTextField display1, display2, display3; // Text field for displaying pressed buttons & calculations 
     private JTextField activeDisplay; // Variable to keep track of the active display
-    private double result; // Variable to store the result of calculations
     private String operator; // Variable to store the current operator method picked
-    private boolean calculating; // Flag to indicate if a calculation is in progress
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
     private static final int MAX_HIGHT = 600; // Constant for maximum height of the JFrame
     private static final int MAX_WIDTH = 375; // Constant for maximum width of the JFrame
+    
+    //private JButton[] numberButtons; // Array to hold number buttons (0-9)
+    //private double result; // Variable to store the result of calculations
+    //private boolean calculating; // Flag to indicate if a calculation is in progress
     
     /**
      * Constructor for CalcRun class that initializes the GUI components and sets up the calculator.
@@ -163,12 +164,10 @@ public class CalcRun {
                 display3.setText(String.valueOf(formattedResult)); // Set the display to the result of the calculation
                 display3.setBackground(Color.WHITE); // Set background color to white
                 
-            } catch (NumberFormatException ex) {
+            } catch (NumberFormatException | NullPointerException ex) {
                 JOptionPane.showMessageDialog(frame, "Invalid Input Error: " + ex); // Display error if calculation fails
             } catch (ArithmeticException ex) {
                 JOptionPane.showMessageDialog(frame, "Math Error: " + ex); // Display error if calculation fails
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, "Error: " + ex); // Display error if calculation fails
             }
         });
         buttonPanel.add(equalsButton); // Add equals button to the panel

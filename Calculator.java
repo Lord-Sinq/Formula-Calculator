@@ -1,7 +1,7 @@
 /**
  * @author Sinclair DeYoung
  * @version 1.0
- * @since 2023-10-01
+ * @since 2025-04-08
  * This is a calculator program that performs operations on formulas that are time consuming.
  */
 
