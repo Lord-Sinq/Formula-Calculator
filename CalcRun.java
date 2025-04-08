@@ -24,10 +24,10 @@ public class CalcRun {
     private JPanel buttonPanel, specialButtonPanel; // Panel to hold calculator buttons
     private JPanel mainPanel; // Main panel for the calculator
     private JButton[] numberButtons; // Array to hold number buttons (0-9)
-    private JTextField display1, display2, display3; // Text field for displaying calculations
+    private JTextField display1, display2, display3; // Text field for displaying pressed buttons & calculations 
     private JTextField activeDisplay; // Variable to keep track of the active display
     private double result; // Variable to store the result of calculations
-    private String operator; // Variable to store the current operator
+    private String operator; // Variable to store the current operator method picked
     private boolean calculating; // Flag to indicate if a calculation is in progress
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
     private static final int MAX_HIGHT = 600; // Constant for maximum height of the JFrame
@@ -40,27 +40,32 @@ public class CalcRun {
      * It also configures the layout of the GUI components and adds them to the JFrame.
      */
     public CalcRun(){
+
+        // initualize and set up the JFrame for calculator
+
         // running the calc application
         JFrame frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(MAX_WIDTH, MAX_HIGHT);
         frame.setLayout(new BorderLayout()); // Set the layout manager for the frame
 
+        // initualize the displays
+
         // initualize the display for display1 which will be used as num1 in the Calculator class call
         display1 = new JTextField(); // Create a text field for displaying calculations
         display1.setEditable(false); // Make the display non-editable
-        display1.setFont(new Font("Arial", Font.PLAIN, 17)); // Set font for the display
+        display1.setFont(new Font("Arial", Font.PLAIN, 15)); // Set font for the display
         display1.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
         // initualize the display for display2 which will be used as num1 in the Calculator class call
         display2 = new JTextField(); // Create a text field for displaying calculations
         display2.setEditable(false); // Make the display non-editable
-        display2.setFont(new Font("Arial", Font.PLAIN, 17)); // Set font for the display
+        display2.setFont(new Font("Arial", Font.PLAIN, 15)); // Set font for the display
         display2.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
         // initualize the display for display3 which will be used as num1 in the Calculator class call
         display3 = new JTextField(); // Create a text field for displaying calculations
         display3.setEditable(false); // Make the display non-editable
-        display3.setFont(new Font("Arial", Font.PLAIN, 17)); // Set font for the display
-        display3.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right\
+        display3.setFont(new Font("Arial", Font.PLAIN, 15)); // Set font for the display
+        display3.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
 
         // setting the display to be focused on display1
         activeDisplay = display1; // Set the active display to display1
@@ -71,6 +76,8 @@ public class CalcRun {
         mainPanel = new JPanel(); 
         mainPanel.setLayout(new BorderLayout()); // Set the layout manager for the formula panel
         mainPanel.setBorder(BorderFactory.createTitledBorder("Formula's")); // Add a border with title
+
+        // Create a JComboBox for selecting formulas
         
         String[] formulas = {
             // Array of formulas for the JComboBox
@@ -87,6 +94,8 @@ public class CalcRun {
         });
         mainPanel.add(formulaSelector, BorderLayout.NORTH); // Add the JComboBox to the main panel
 
+        // Add displays to the main panel
+
         // Add displays to the main panel using a gridlayout
         JPanel dispayPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // Create a panel for the displays
         dispayPanel.add(display1); // Add display1 to the display panel
@@ -94,9 +103,13 @@ public class CalcRun {
         dispayPanel.add(display3); // Add display3 to the display panel
         mainPanel.add(dispayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
 
+        // initualize the button panels
+
         // Create button panel's for the calculator buttons
         buttonPanel = new JPanel(new GridLayout(4, 4, 8, 10)); // Create a panel for the calculator buttons
-        specialButtonPanel = new JPanel(new GridLayout(1, 4, 8, 10)); // Create a panel for special buttons
+        specialButtonPanel = new JPanel(new GridLayout(4, 4, 8, 10)); // Create a panel for special buttons
+
+        // Create buttons for digits and special buttons
         
         JButton[] numberButtons = new JButton[10]; // Array to hold number buttons (0-9)
         for (int i = 0; i < 10; i++) {
@@ -113,7 +126,7 @@ public class CalcRun {
         dotButton.addActionListener(e -> {
             // Append the dot to the active display
             if (!activeDisplay.getText().contains(".")) { // Check if dot is already present
-                activeDisplay.setText(activeDisplay.getText() + "."); // Append dot to display1
+                activeDisplay.setText(activeDisplay.getText() + "."); // Append dot to active display
             }
         });
         buttonPanel.add(dotButton); // Add dot button to the panel
@@ -185,6 +198,8 @@ public class CalcRun {
             }
         });
         specialButtonPanel.add(switchButton); // Add switch button to the panel
+
+        // add the panels to the frame
 
         // add panel to the frame
         frame.add(mainPanel, BorderLayout.NORTH); // Add the main panel to the frame
