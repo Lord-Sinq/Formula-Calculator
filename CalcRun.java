@@ -12,8 +12,8 @@ import javax.swing.*;
 public class CalcRun {
     /**
      * This class represents a simple calculator application.
-     * This is the main method that initializes and runs the calculator application.
      * It sets up the GUI components, including buttons and display.
+     * This is the main method that initializes and runs the calculator application.
      * It uses GridBagLayout for flexible layout management and adds buttons for digits and operations.
      * The main method creates a JFrame, sets its properties, and adds components to it.
      * It also handles button clicks to perform calculations and update the display.
@@ -25,6 +25,7 @@ public class CalcRun {
     final private JPanel mainPanel; // Main panel for the calculator
     final private JTextField display1, display2, display3; // Text field for displaying pressed buttons & calculations 
     private JTextField activeDisplay; // Variable to keep track of the active display
+    private JLabel displayLabelOne, diplayLabelTwo, displayLabeled; // Label for in between display1 and display 2 & display 2 and display 3
     private String operator; // Variable to store the current operator method picked
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
     private static final int MAX_HIGHT = 600; // Constant for maximum height of the JFrame
@@ -92,17 +93,50 @@ public class CalcRun {
             display1.setText(""); // Clear the display when a new formula is selected
             display2.setText(""); // Clear the display when a new formula is selected
             display3.setText(""); // Clear the display when a new formula is selected
+            
+            // Get the selected operator to add a JLabel in between the displays
+            try {
+                String labelSelectedFormula = (String) formulaSelector.getSelectedItem();
+                operator = switch (labelSelectedFormula) {
+                    case "Addition (+)" -> "+";
+                    case "Subtraction (-)" -> "-";
+                    case "Multiplication (*)" -> "*";
+                    case "Division (/)" -> "/";
+                    default -> throw new IllegalArgumentException("Invalid operator selected");
+                };
+                // displayLabeled = switch (operator) {
+                //     case "+" -> new JLabel("+");
+                //     case "-" -> new JLabel("-");
+                //     case "*" -> new JLabel("*");
+                //     case "/" -> new JLabel("/");
+                //     default -> new JLabel("+");
+                // };
+                displayLabelOne.setText(operator); // Set the label for display1
+
+                // reaclidate and repaint based on the operator selected
+                mainPanel.revalidate();
+                mainPanel.repaint();
+            } catch (NullPointerException ex) {
+                operator = "+"; // Default to addition if no selection is made
+                displayLabelOne.setText(operator);
+            }
         });
+        displayLabelOne = displayLabeled; // Set the label for display1
+
         mainPanel.add(formulaSelector, BorderLayout.NORTH); // Add the JComboBox to the main panel
 
         // Add displays to the main panel
 
+        diplayLabelTwo = new JLabel("="); // Create a label for display2
+
         // Add displays to the main panel using a gridlayout
-        JPanel dispayPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // Create a panel for the displays
-        dispayPanel.add(display1); // Add display1 to the display panel
-        dispayPanel.add(display2); // Add display2 to the display panel
-        dispayPanel.add(display3); // Add display3 to the display panel
-        mainPanel.add(dispayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
+        JPanel displayPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // Create a panel for the displays
+        displayPanel.add(display1); // Add display1 to the display panel
+        displayPanel.add(displayLabelOne); // Add label between display1 and display2
+        displayPanel.add(display2); // Add display2 to the display panel
+        displayPanel.add(diplayLabelTwo); // Add label between display2 and display3
+        displayPanel.add(display3); // Add display3 to the display panel
+        mainPanel.add(displayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
 
         // initualize the button panels
 

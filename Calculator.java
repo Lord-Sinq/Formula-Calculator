@@ -1,6 +1,6 @@
 /**
  * @author Sinclair DeYoung
- * @version 1.0
+ * @version 2.0
  * @since 2025-04-08
  * This is a calculator program that performs operations on formulas that are time consuming.
  */
@@ -66,4 +66,24 @@ public class Calculator {
         }
         return (float) x / y;
     }
+
+    /** 
+     * Version 2.0 code
+     * 
+     */
+
+    public static float modulus(float x, float y) {
+        /**
+         * This method calculates the modulus of the first float number by the second.
+         * @param x the first float number
+         * @param y the second float number
+         * @return the remainder of x divided by y
+         * @throws ArithmeticException if division by zero is attempted
+         */
+        if (y == 0) {
+            throw new ArithmeticException("Division by zero is not allowed.");
+        }
+        return x % y;
+    }
+
 }
