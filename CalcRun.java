@@ -25,11 +25,11 @@ public class CalcRun {
     final private JPanel mainPanel; // Main panel for the calculator
     final private JTextField display1, display2, display3; // Text field for displaying pressed buttons & calculations 
     private JTextField activeDisplay; // Variable to keep track of the active display
-    private JLabel displayLabelOne, diplayLabelTwo, displayLabeled; // Label for in between display1 and display 2 & display 2 and display 3
+    private JLabel displayLabelOne, diplayLabelTwo; // Label for in between display1 and display 2 & display 2 and display 3
     private String operator; // Variable to store the current operator method picked
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
     private static final int MAX_HIGHT = 600; // Constant for maximum height of the JFrame
-    private static final int MAX_WIDTH = 375; // Constant for maximum width of the JFrame
+    private static final int MAX_WIDTH = 400; // Constant for maximum width of the JFrame
     
     //private JButton[] numberButtons; // Array to hold number buttons (0-9)
     //private double result; // Variable to store the result of calculations
@@ -79,6 +79,8 @@ public class CalcRun {
         mainPanel.setLayout(new BorderLayout()); // Set the layout manager for the formula panel
         mainPanel.setBorder(BorderFactory.createTitledBorder("Formula's")); // Add a border with title
 
+        // Initialize the label for displayLabelOne
+        displayLabelOne = new JLabel("+"); // Default operator label
         // Create a JComboBox for selecting formulas
         
         String[] formulas = {
@@ -86,31 +88,30 @@ public class CalcRun {
             "Addition (+)",
             "Subtraction (-)",
             "Multiplication (*)",
-            "Division (/)"
+            "Division (/)",
+            "Modulus (%)"
         }; // Array of formulas for the JComboBox
         formulaSelector = new JComboBox<>(formulas); // Create a JComboBox for selecting formulas
         formulaSelector.addActionListener(e -> {
+
             display1.setText(""); // Clear the display when a new formula is selected
             display2.setText(""); // Clear the display when a new formula is selected
             display3.setText(""); // Clear the display when a new formula is selected
             
             // Get the selected operator to add a JLabel in between the displays
             try {
+                // get the selected operator from the JComboBox
                 String labelSelectedFormula = (String) formulaSelector.getSelectedItem();
+
+                // Set the operator based on the selected formula
                 operator = switch (labelSelectedFormula) {
                     case "Addition (+)" -> "+";
                     case "Subtraction (-)" -> "-";
                     case "Multiplication (*)" -> "*";
                     case "Division (/)" -> "/";
+                    case "Modulus (%)" -> "%";
                     default -> throw new IllegalArgumentException("Invalid operator selected");
                 };
-                // displayLabeled = switch (operator) {
-                //     case "+" -> new JLabel("+");
-                //     case "-" -> new JLabel("-");
-                //     case "*" -> new JLabel("*");
-                //     case "/" -> new JLabel("/");
-                //     default -> new JLabel("+");
-                // };
                 displayLabelOne.setText(operator); // Set the label for display1
 
                 // reaclidate and repaint based on the operator selected
@@ -121,13 +122,13 @@ public class CalcRun {
                 displayLabelOne.setText(operator);
             }
         });
-        displayLabelOne = displayLabeled; // Set the label for display1
 
         mainPanel.add(formulaSelector, BorderLayout.NORTH); // Add the JComboBox to the main panel
 
         // Add displays to the main panel
 
         diplayLabelTwo = new JLabel("="); // Create a label for display2
+        
 
         // Add displays to the main panel using a gridlayout
         JPanel displayPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // Create a panel for the displays
@@ -168,6 +169,10 @@ public class CalcRun {
 
         JButton equalsButton = new JButton("="); // Create an equals button
         equalsButton.addActionListener(e -> {
+            equalsButton.setBackground(Color.LIGHT_GRAY);// Set background color to light grey
+            // equalsButton.setOpaque(true); // Make the button opaque allowing the color to show
+            // equalsButton.setBorderPainted(false); // Remove border from the button
+            
             // preform calculation (basic implementation)
             try {
                 // get the numbers from the display
@@ -181,6 +186,7 @@ public class CalcRun {
                     case "Subtraction (-)" -> "-";
                     case "Multiplication (*)" -> "*";
                     case "Division (/)" -> "/";
+                    case "Modulus (%)" -> "%";
                     default -> throw new IllegalArgumentException("Invalid operator selected");
                 };
                 // get the operator from the formulaSelector
@@ -189,6 +195,7 @@ public class CalcRun {
                     case "-" -> Calculator.subtract(num1, num2); // Subtraction
                     case "/" -> Calculator.divide(num1, num2); // Division with check for zero
                     case "*" -> Calculator.multiply(num1, num2); // Multiplication
+                    case "%" -> num1 % num2; // Modulus
                     default -> 0; // Default case
                 };
 
@@ -232,12 +239,18 @@ public class CalcRun {
         });
         specialButtonPanel.add(switchButton); // Add switch button to the panel
 
+        // customization of buttons, labels, and panels
+
         // add the panels to the frame
 
         // add panel to the frame
         frame.add(mainPanel, BorderLayout.NORTH); // Add the main panel to the frame
         frame.add(buttonPanel, BorderLayout.CENTER); // Add the button panel to the frame
         frame.add(specialButtonPanel, BorderLayout.EAST); // Add the button panel to the frame
+
+        // revalidate and repaint the frame
+        frame.revalidate(); // Revalidate the frame to update the layout
+        frame.repaint(); // Repaint the frame to update the display
 
         //finalize and display the frame
         frame.pack(); // Pack the frame to fit the components
