@@ -1,6 +1,6 @@
 /**
  * @author Sinclair DeYoung
- * @version 1.0
+ * @version 1.1.01
  * @since 2025-04-08
  * This is the main class that runs the calculator application.
  */
@@ -28,8 +28,8 @@ public class CalcRun {
     private JLabel displayLabelOne, diplayLabelTwo; // Label for in between display1 and display 2 & display 2 and display 3
     private String operator; // Variable to store the current operator method picked
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
-    private static final int MAX_HIGHT = 600; // Constant for maximum height of the JFrame
-    private static final int MAX_WIDTH = 400; // Constant for maximum width of the JFrame
+    private static final int MAX_HIGHT = 800; // Constant for maximum height of the JFrame
+    private static final int MAX_WIDTH = 600; // Constant for maximum width of the JFrame
     
     //private JButton[] numberButtons; // Array to hold number buttons (0-9)
     //private double result; // Variable to store the result of calculations
@@ -129,7 +129,7 @@ public class CalcRun {
 
         diplayLabelTwo = new JLabel("="); // Create a label for display2
         
-
+/** 
         // Add displays to the main panel using a gridlayout
         JPanel displayPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // Create a panel for the displays
         displayPanel.add(display1); // Add display1 to the display panel
@@ -138,6 +138,84 @@ public class CalcRun {
         displayPanel.add(diplayLabelTwo); // Add label between display2 and display3
         displayPanel.add(display3); // Add display3 to the display panel
         mainPanel.add(displayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
+*/
+/**
+        // Add displays to the main panel using a gridbaglayout
+        // Create a panel for the displays using GridBagLayout
+        JPanel displayPanel = new JPanel(new GridBagLayout()); // Create a panel for the displays
+        GridBagConstraints gbc = new GridBagConstraints(); // Create a GridBagConstraints object for layout management
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
+        gbc.insets = new Insets(5,5,5,5); // Set insets for spacing between components
+        gbc.anchor = GridBagConstraints.CENTER; // Center the components in the grid cell
+        gbc.weightx = 1.0; // Set weight for horizontal resizing
+        gbc.weighty = 0.0; // Set weight for vertical resizing
+        gbc.gridheight = 1; // Set grid height to 1 for each component
+
+        // Visual Debugging
+        display1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        displayLabelOne.setBorder(BorderFactory.createLineBorder(Color.RED));
+        display2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        diplayLabelTwo.setBorder(BorderFactory.createLineBorder(Color.RED));
+        display3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        
+        // add display 1
+        gbc.gridwidth = 3; // Set grid width to 1 for each component
+        gbc.gridx = 0; // Set the grid x position for display1
+        gbc.gridy = 0; // Set the grid y position for display1
+        displayPanel.add(display1, gbc); // Add display1 to the display panel
+        
+        // add display label one
+        gbc.gridwidth = 1; // Reset grid width to 1 for the next components
+        gbc.gridx = 3; // Set the grid x position for displayLabelOne
+        gbc.gridy = 0; // Set the grid y position for displayLabelOne
+        displayPanel.add(displayLabelOne, gbc); // Add label between display1 and display2
+        
+        // add display 2
+        gbc.gridwidth = 3; // Reset grid width to 1 for the next components
+        gbc.gridx = 4; // Set the grid x position for display2
+        gbc.gridy = 0; // Set the grid y position for display2
+        displayPanel.add(display2, gbc); // Add display2 to the display panel
+        
+        // add display label two
+        gbc.gridwidth = 1; // Reset grid width to 1 for the next components
+        gbc.gridx = 7; // Set the grid x position for diplayLabelTwo
+        gbc.gridy = 0; // Set the grid y position for diplayLabelTwo
+        displayPanel.add(diplayLabelTwo, gbc); // Add label between display2 and display3
+        
+        // add display 3
+        gbc.gridwidth = 3; // Reset grid width to 1 for the next components
+        gbc.gridx = 8; // Set the grid x position for display3
+        gbc.gridy = 0; // Set the grid y position for display3
+        displayPanel.add(display3, gbc); // Add display3 to the display panel
+        mainPanel.add(displayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
+        */
+
+        // Add displays to the main panel using a FlowLayout
+        JPanel displayPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Create a panel for the displays
+        displayPanel.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 10)); // Add empty border for spacing
+
+        // Visual Debugging
+        display1.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Set border for display1
+        displayLabelOne.setBorder(BorderFactory.createLineBorder(Color.RED)); // Set border for displayLabelOne
+        display2.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Set border for display2
+        diplayLabelTwo.setBorder(BorderFactory.createLineBorder(Color.RED)); // Set border for diplayLabelTwo
+        display3.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Set border for display3
+
+        // Component stretching
+        display1.setPreferredSize(new Dimension(150, 30)); // Set a fixed size for display1
+        display2.setPreferredSize(new Dimension(150, 30)); // Set a fixed size for display2
+        display3.setPreferredSize(new Dimension(150, 30)); // Set a fixed size for display3
+
+        // Add display1 to the display panel
+        displayPanel.add(display1); // Add display1 to the display panel
+        displayPanel.add(displayLabelOne); // Add label between display1 and display2
+        displayPanel.add(display2); // Add display2 to the display panel
+        displayPanel.add(diplayLabelTwo); // Add label between display2 and display3
+        displayPanel.add(display3); // Add display3 to the display panel
+
+        // Add the display panel to the main panel
+        mainPanel.add(displayPanel, BorderLayout.CENTER); // Add the display panel to the main panel
+        
 
         // initualize the button panels
 
