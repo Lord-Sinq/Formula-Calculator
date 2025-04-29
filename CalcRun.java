@@ -25,7 +25,8 @@ public class CalcRun {
     final private JPanel mainPanel; // Main panel for the calculator
     final private JTextField display1, display2, display3; // Text field for displaying pressed buttons & calculations 
     private JTextField activeDisplay; // Variable to keep track of the active display
-    private JLabel displayLabelOne, diplayLabelTwo; // Label for in between display1 and display 2 & display 2 and display 3
+    private JLabel displayLabelOne; // Label for in between display1 and display 2
+    final private JLabel diplayLabelTwo; // Label for in between display 2 and display 3
     private String operator; // Variable to store the current operator method picked
     private JComboBox<String> formulaSelector; // ComboBox for selecting operators (e.g., +, -, *, /)
     private static final int MAX_HIGHT = 800; // Constant for maximum height of the JFrame
